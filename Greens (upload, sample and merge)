@@ -25,31 +25,52 @@ green_filenames = find_csv_filenames(r'C:\Users\Margherita_hp\Desktop\nyc-data\n
 
 
 """ 
-    desc
+    Green files from 2016-01 to 2016-06 are problematic: the header does not work properly (VendorID ends up being a date!!!)
+    To fix them we use this function
 """
-to_be_fixed = ['']
-def fix(lis):
-    for name_df in lis:
-        df = pd.read_csv(name_df)
-        n = ['VendorID', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'RatecodeID', 'PULocationID', 'DOLocationID', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'ehail_fee', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type']
-        df = pd.read_csv(name_df, delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
-        df.drop(df.index[0])
-        df.to_csv('%s.csv' %name_df, index=False)
-    print('completed')
-fix(to_be_fixed)
+to_be_fixed = ["green_tripdata_2016-07.csv", "green_tripdata_2016-08.csv", "green_tripdata_2016-09.csv", 
+"green_tripdata_2016-10.csv", "green_tripdata_2016-11.csv", "green_tripdata_2016-12.csv"]
 
+for name_df in to_be_fixed:
+    df = pd.read_csv(name_df)
+    n = ['VendorID', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'RatecodeID', 'PULocationID', 'DOLocationID', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'ehail_fee', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type']
+    df = pd.read_csv(name_df, delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
+    df.drop(df.index[0])
+    df.to_csv('%s' %name_df, index=False)
+    print('completed')
 
 """ 
-    desc
+    Sample. We sample and merge 6/12 df at a time 
 """
-count = 1
-greens = list()
-for g in greens:
-    filename = "".join(["sgreen2016", str(count)])
-    df_sampled = g.sample(frac = .01, random_state = 1)
-    greens.append(df_sampled)
-    count = count + 1
-frame = pd.concat(greens, axis=0, ignore_index=True) #concatenate all the df in the list
-frame.to_csv('sd_%s.csv' %name_df, index=False)
+# list2016 = quelli con la lat e long da sistemare
+
+glist2016 =  list(["green_tripdata_2016-07.csv", "green_tripdata_2016-08.csv", "green_tripdata_2016-09.csv", 
+"green_tripdata_2016-10.csv", "green_tripdata_2016-11.csv", "green_tripdata_2016-12.csv"]) #i fixati
+
+glist2017 = ["green_tripdata_2017-01.csv", "green_tripdata_2017-02.csv", "green_tripdata_2017-03.csv", 
+"green_tripdata_2017-04.csv", "green_tripdata_2017-05.csv", "green_tripdata_2017-06.csv", 
+"green_tripdata_2017-07.csv", "green_tripdata_2017-08.csv", "green_tripdata_2017-09.csv", 
+"green_tripdata_2017-10.csv", "green_tripdata_2017-11.csv", "green_tripdata_2017-12.csv"]
+
+glist2018 = ["green_tripdata_2018-01.csv", "green_tripdata_2018-02.csv", "green_tripdata_2018-03.csv", 
+"green_tripdata_2018-04.csv", "green_tripdata_2018-05.csv", "green_tripdata_2018-06.csv"]
+
+def sample_and_merge(l): #l needs to be a list of 6/12 dfs
+
+    sample_collection = list()
+    for name in l:
+        df = pd.read_csv(name)
+        df_sampled = df.sample(frac = .02, random_state = 1)
+        sample_collection.append(df_sampled)
+        
+     #Concatenate and create new csv file
+     frame = pd.concat(sample_collection, axis=0, ignore_index=True) #concatenate all the df in the list
+     frame.to_csv('sampled_%s.csv' %l, index=False)
+     
+     frame 
+        
+green_merged = sample_and_merge(glist2016).concat([sample_and_merge(glist2017),sample_and_merge(glist2018)]
+
+
 
 
