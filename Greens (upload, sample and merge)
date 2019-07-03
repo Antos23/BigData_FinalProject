@@ -1,1 +1,55 @@
+# deleting all variables in the environment
+for i in list(globals().keys()):
+    if(i[0] != '_'):
+        exec('del {}'.format(i))
+del i
+
+# importing libraries
+import pandas as pd
+import numpy as np
+from os import listdir
+import random
+import csv
+
+
+""" 
+    create a list of filenames for all the greens in the folder
+    CHANGE PATH (do not remove the 'r' before the string) 
+    and CHECK FILES IN THE FOLDER BEFORE EXECUTING
+"""
+def find_csv_filenames(path_to_dir, suffix='.csv'):
+    filenames = listdir(path_to_dir)
+    return [ filename for filename in filenames if filename.endswith( suffix ) ]
+
+green_filenames = find_csv_filenames(r'C:\Users\Margherita_hp\Desktop\nyc-data\nyc-data-g')
+
+
+""" 
+    desc
+"""
+to_be_fixed = ['']
+def fix(lis):
+    for name_df in lis:
+        df = pd.read_csv(name_df)
+        n = ['VendorID', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'RatecodeID', 'PULocationID', 'DOLocationID', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'ehail_fee', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type']
+        df = pd.read_csv(name_df, delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
+        df.drop(df.index[0])
+        df.to_csv('%s.csv' %name_df, index=False)
+    print('completed')
+fix(to_be_fixed)
+
+
+""" 
+    desc
+"""
+count = 1
+greens = list()
+for g in greens:
+    filename = "".join(["sgreen2016", str(count)])
+    df_sampled = g.sample(frac = .01, random_state = 1)
+    greens.append(df_sampled)
+    count = count + 1
+frame = pd.concat(greens, axis=0, ignore_index=True) #concatenate all the df in the list
+frame.to_csv('sd_%s.csv' %name_df, index=False)
+
 
