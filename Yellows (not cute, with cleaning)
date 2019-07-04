@@ -87,6 +87,10 @@ list(yellow201607) == list(yellow201801)
 list(yellow201701) == list(yellow201801)
 
 
+
+"""                    
+"""
+
 # importing libraries
 import pandas as pd
 import numpy as np
@@ -123,7 +127,12 @@ for name_df in to_be_fixed:
     df.to_csv('%s' %name_df, index=False)
     print('completed')
 
-n = ['VendorID', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'RatecodeID', 'PULocationID', 'DOLocationID', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'ehail_fee', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type']
+n = ['VendorID', 'tpep_pickup_datetime', 'tpep_dropoff_datetime', 
+        'passenger_count', 'trip_distance', 'RatecodeID', 
+        'store_and_fwd_flag', 'PULocationID', 'DOLocationID', 
+        'payment_type', 'fare_amount', 'extra', 'mta_tax', 
+        'tip_amount', 'tolls_amount', 'improvement_surcharge', 'total_amount']
+
 
 df = pd.read_csv("yellow_tripdata_2016-07.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
 df = df.drop(df.index[0])
@@ -131,42 +140,33 @@ df.to_csv("yellow_tripdata_2016-07.csv", index=False)
 print('completed')
 
 df = pd.read_csv("yellow_tripdata_2016-08.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
-df.drop(df.index[0])
-df.to_csv("f_yellow_tripdata_2016-08.csv", index=False)
+df = df.drop(df.index[0])
+df.to_csv("yellow_tripdata_2016-08.csv", index=False)
 print('completed')
 
 df = pd.read_csv("yellow_tripdata_2016-09.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
-df.drop(df.index[0])
-df.to_csv("f_yellow_tripdata_2016-09.csv", index=False)
+df = df.drop(df.index[0])
+df.to_csv("yellow_tripdata_2016-09.csv", index=False)
 print('completed')
 
 df = pd.read_csv("yellow_tripdata_2016-10.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
-df.drop(df.index[0])
-df.to_csv("f_yellow_tripdata_2016-10.csv", index=False)
+df = df.drop(df.index[0])
+df.to_csv("yellow_tripdata_2016-10.csv", index=False)
 print('completed')
 
 df = pd.read_csv("yellow_tripdata_2016-11.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
-df.drop(df.index[0])
-df.to_csv("f_yellow_tripdata_2016-11.csv", index=False)
+df = df.drop(df.index[0])
+df.to_csv("yellow_tripdata_2016-11.csv", index=False)
 print('completed')
 
 df = pd.read_csv("yellow_tripdata_2016-12.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
-df.drop(df.index[0])
-df.to_csv("f_yellow_tripdata_2016-12.csv", index=False)
+df = df.drop(df.index[0])
+df.to_csv("yellow_tripdata_2016-12.csv", index=False)
 print('completed')
 
 """ 
     Sample. We sample and merge 6/12 df at a time 
 """
-# quelli con la lat e long da sistemare
-# ylist2016a = ['yellow_tripdata_2016-01.csv', 'yellow_tripdata_2016-02.csv', 'yellow_tripdata_2016-03.csv', 'yellow_tripdata_2016-04.csv', 'yellow_tripdata_2016-05.csv', 'yellow_tripdata_2016-06.csv']
-
-ylist2016b = ['yellow_tripdata_2016-07.csv', 'yellow_tripdata_2016-08.csv', 'yellow_tripdata_2016-09.csv', 'yellow_tripdata_2016-10.csv', 'yellow_tripdata_2016-11.csv', 'yellow_tripdata_2016-12.csv']
-
-ylist2017= ['yellow_tripdata_2017-01.csv', 'yellow_tripdata_2017-02.csv', 'yellow_tripdata_2017-03.csv', 'yellow_tripdata_2017-04.csv', 'yellow_tripdata_2017-05.csv', 'yellow_tripdata_2017-06.csv', 'yellow_tripdata_2017-07.csv', 'yellow_tripdata_2017-08.csv', 'yellow_tripdata_2017-09.csv', 'yellow_tripdata_2017-10.csv', 'yellow_tripdata_2017-11.csv', 'yellow_tripdata_2017-12.csv']
-
-ylist2018 = ['yellow_tripdata_2018-01.csv', 'yellow_tripdata_2018-02.csv', 'yellow_tripdata_2018-03.csv', 'yellow_tripdata_2018-04.csv', 'yellow_tripdata_2018-05.csv', 'yellow_tripdata_2018-06.csv']
-
 def sample_and_merge(l, out_name): #l needs to be a list of 6/12 dfs
     sample_collection = list()
     for name in l:
@@ -179,24 +179,68 @@ def sample_and_merge(l, out_name): #l needs to be a list of 6/12 dfs
     frame.to_csv(out_name, index=False)
     #frame 
 
-## first 6 months of 2016 not included yet (geopy)
-#sample_and_merge(ylist2016a, 'sampled_ylist2016a.csv')
-#sampled_ylist2016a = pd.read_csv('sampled_ylist2016a.csv')
+## the first 6 months of 2016 are yet to do 
 
+# ylist2016a = ['yellow_tripdata_2016-01.csv', 'yellow_tripdata_2016-02.csv', 'yellow_tripdata_2016-03.csv', 'yellow_tripdata_2016-04.csv', 'yellow_tripdata_2016-05.csv', 'yellow_tripdata_2016-06.csv']
+ylist2016b = ['yellow_tripdata_2016-07.csv', 'yellow_tripdata_2016-08.csv', 'yellow_tripdata_2016-09.csv', 'yellow_tripdata_2016-10.csv', 'yellow_tripdata_2016-11.csv', 'yellow_tripdata_2016-12.csv']
+ylist2017= ['yellow_tripdata_2017-01.csv', 'yellow_tripdata_2017-02.csv', 'yellow_tripdata_2017-03.csv', 'yellow_tripdata_2017-04.csv', 'yellow_tripdata_2017-05.csv', 'yellow_tripdata_2017-06.csv', 'yellow_tripdata_2017-07.csv', 'yellow_tripdata_2017-08.csv', 'yellow_tripdata_2017-09.csv', 'yellow_tripdata_2017-10.csv', 'yellow_tripdata_2017-11.csv', 'yellow_tripdata_2017-12.csv']
+ylist2018 = ['yellow_tripdata_2018-01.csv', 'yellow_tripdata_2018-02.csv', 'yellow_tripdata_2018-03.csv', 'yellow_tripdata_2018-04.csv', 'yellow_tripdata_2018-05.csv', 'yellow_tripdata_2018-06.csv']
+
+# sample_and_merge(ylist2016a, 'sampled_ylist2016a.csv')
 sample_and_merge(ylist2016b, 'sampled_ylist2016b.csv')
 sample_and_merge(ylist2017, 'sampled_ylist2017.csv')
 sample_and_merge(ylist2018, 'sampled_ylist2018.csv')
 
+#sampled_ylist2016a = pd.read_csv('sampled_ylist2016a.csv')
 sampled_ylist2016b = pd.read_csv('sampled_ylist2016b.csv')
 sampled_ylist2017 = pd.read_csv('sampled_ylist2017.csv')
 sampled_ylist2018 = pd.read_csv('sampled_ylist2018.csv')
 
+# checking column names
 cols_ylist2016b = list(sampled_ylist2016b.columns)
 cols_ylist2017 = list(sampled_ylist2017.columns)
 cols_ylist2018 = list(sampled_ylist2018.columns)
-
 cols_ylist2018 == cols_ylist2017
 cols_ylist2018 == cols_ylist2016b
+
+""" 
+    Final merge for yellows 
+"""
+yellow_merged = pd.concat([sampled_ylist2016b, sampled_ylist2017, sampled_ylist2018])
+yellow_merged.to_csv("yellow_merged.csv", index=False)
+
+
+""" 
+    Last operations on yellows, 
+    in order to make a nice join with the greens later 
+"""
+yellows = pd.read_csv('yellow_merged.csv')
+
+# add 'trip_type' column
+yellows['trip_type'] = 'NaN'
+
+# rename tpep_datetime to lpep_datetime both for pickups and for dropoffs
+yellows = yellows.rename(columns = {'tpep_pickup_datetime' : 'lpep_pickup_datetime', 'tpep_dropoff_datetime' : 'lpep_dropoff_datetime'})
+
+# reorder columns
+order = ['VendorID', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'RatecodeID', 
+        'PULocationID', 'DOLocationID', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 
+        'tolls_amount', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type']           
+yellows = yellows[order]
+m = list(yellows.columns)
+m == order
+
+# overwriting correct file
+yellows.to_csv("yellow_merged.csv", index=False)
+
+# finalissimo check
+yellows2 = pd.read_csv('yellow_merged.csv')
+
+
+
+
+""""
+# old good times when column names where assumed
 
 # since the fixing of yellow2016b has been done with respect to greens columns
 # we ended up with 2 extra columns: 'ehail_fee', 'trip_type'
@@ -238,3 +282,24 @@ del(order, cols_ylist2016b, cols_ylist2017, cols_ylist2018)
 
 yellow_merged = pd.concat([sampled_ylist2016b, sampled_ylist2017, sampled_ylist2018])
 yellow_merged.to_csv("yellow_merged.csv", index=False)
+
+
+yellow_merged = pd.read_csv('yellow_merged.csv')
+yellow_merged = pd.read_csv('yellow_merged.csv', low_memory='False')
+
+
+## check how many non-null entries on 'ehail_fee'
+sum(sampled_ylist2016b['ehail_fee'] != 0 ) / (sum(sampled_ylist2016b['ehail_fee'] == 0 ) + sum(sampled_ylist2016b['ehail_fee'] != 0 ))
+sum(yellow201806['ehail_fee'] != 0 ) / (sum(yellow201806['ehail_fee'] == 0 ) + sum(yellow201806['ehail_fee'] != 0 ))
+sum(sampled_ylist2018['ehail_fee'] != 0 ) / (sum(sampled_ylist2018['ehail_fee'] == 0 ) + sum(sampled_ylist2018['ehail_fee'] != 0 ))
+
+# -BAD-BAD-BAD-
+yellow201607 = pd.read_csv ("yellow_tripdata_2016-07.csv")
+yellow201608 = pd.read_csv ("yellow_tripdata_2016-08.csv")
+yellow201609 = pd.read_csv ("yellow_tripdata_2016-09.csv")
+yellow201610 = pd.read_csv ("yellow_tripdata_2016-10.csv")
+yellow201611 = pd.read_csv ("yellow_tripdata_2016-11.csv") 
+yellow201612 = pd.read_csv ("yellow_tripdata_2016-12.csv") 
+
+""""
+
