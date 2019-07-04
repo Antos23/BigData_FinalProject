@@ -1,0 +1,240 @@
+# importing libraries
+import pandas as pd
+from os import listdir
+
+""" 2016 yellow
+"""
+# loading csv's and looking at their structures
+yellow201601 = pd.read_csv ("yellow_tripdata_2016-01.csv")
+yellow201602 = pd.read_csv ("yellow_tripdata_2016-02.csv")
+yellow201603 = pd.read_csv ("yellow_tripdata_2016-03.csv")
+yellow201604 = pd.read_csv ("yellow_tripdata_2016-04.csv") 
+yellow201605 = pd.read_csv ("yellow_tripdata_2016-05.csv") 
+yellow201606 = pd.read_csv ("yellow_tripdata_2016-06.csv") 
+yellow201607 = pd.read_csv ("yellow_tripdata_2016-07.csv")
+yellow201608 = pd.read_csv ("yellow_tripdata_2016-08.csv")
+yellow201609 = pd.read_csv ("yellow_tripdata_2016-09.csv")
+yellow201610 = pd.read_csv ("yellow_tripdata_2016-10.csv")
+yellow201611 = pd.read_csv ("yellow_tripdata_2016-11.csv") 
+yellow201612 = pd.read_csv ("yellow_tripdata_2016-12.csv") 
+
+# checking if variables' names match
+list(yellow201601) == list(yellow201602) 
+list(yellow201601) == list(yellow201603)
+list(yellow201601) == list(yellow201604) 
+list(yellow201601) == list(yellow201605) # ok
+list(yellow201601) == list(yellow201606) # ok
+list(yellow201601) == list(yellow201607) # geo variables change
+list(yellow201607) == list(yellow201608) # ok
+list(yellow201607) == list(yellow201609) # ok
+list(yellow201607) == list(yellow201610) # ok
+list(yellow201607) == list(yellow201611) # ok
+list(yellow201607) == list(yellow201612) # ok 
+# printing actual variables' list
+list(yellow201601) # has latitude
+list(yellow201607) # has PULocationID
+
+""" 2017 yellow
+"""
+yellow201701 = pd.read_csv("yellow_tripdata_2017-01.csv")
+yellow201702 = pd.read_csv("yellow_tripdata_2017-02.csv")
+yellow201703 = pd.read_csv("yellow_tripdata_2017-03.csv")
+yellow201704 = pd.read_csv("yellow_tripdata_2017-04.csv")
+yellow201705 = pd.read_csv("yellow_tripdata_2017-05.csv")
+yellow201706 = pd.read_csv("yellow_tripdata_2017-06.csv")
+yellow201707 = pd.read_csv("yellow_tripdata_2017-07.csv")
+yellow201708 = pd.read_csv("yellow_tripdata_2017-08.csv")
+yellow201709 = pd.read_csv("yellow_tripdata_2017-09.csv")
+yellow201710 = pd.read_csv("yellow_tripdata_2017-10.csv")
+yellow201711 = pd.read_csv("yellow_tripdata_2017-11.csv")
+yellow201712 = pd.read_csv("yellow_tripdata_2017-12.csv")
+
+list(yellow201701) == list(yellow201702) 
+list(yellow201701) == list(yellow201703)
+list(yellow201701) == list(yellow201704)
+list(yellow201701) == list(yellow201705)
+list(yellow201701) == list(yellow201706) # 
+list(yellow201701) == list(yellow201707)
+list(yellow201701) == list(yellow201708)
+list(yellow201701) == list(yellow201709)
+list(yellow201701) == list(yellow201710)
+list(yellow201701) == list(yellow201711)
+list(yellow201701) == list(yellow201712) # 
+
+list(yellow201701)
+
+
+""" 2018 yellow
+"""
+yellow201801 = pd.read_csv("yellow_tripdata_2018-01.csv")
+yellow201802 = pd.read_csv("yellow_tripdata_2018-02.csv")
+yellow201803 = pd.read_csv("yellow_tripdata_2018-03.csv")
+yellow201804 = pd.read_csv("yellow_tripdata_2018-04.csv")
+yellow201805 = pd.read_csv("yellow_tripdata_2018-05.csv")
+yellow201806 = pd.read_csv("yellow_tripdata_2018-06.csv")
+
+list(yellow201801) == list(yellow201802) #ok
+list(yellow201801) == list(yellow201803) #ok
+list(yellow201801) == list(yellow201804) #ok
+list(yellow201801) == list(yellow201805) #ok
+list(yellow201801) == list(yellow201806) #ok
+list(yellow201801)
+
+
+"""                    now check if variables' names match across years
+"""
+list(yellow201607) == list(yellow201801) 
+list(yellow201701) == list(yellow201801)
+
+
+# importing libraries
+import pandas as pd
+import numpy as np
+from os import listdir
+import random
+import csv
+
+
+""" 
+    create a list of filenames for all the yellows in the folder
+    CHANGE PATH (do not remove the 'r' before the string) 
+    and CHECK FILES IN THE FOLDER BEFORE EXECUTING
+"""
+def find_csv_filenames(path_to_dir, suffix='.csv'):
+    filenames = listdir(path_to_dir)
+    return [ filename for filename in filenames if filename.endswith( suffix ) ]
+
+yellow_filenames = find_csv_filenames(r'C:\Users\Margherita_hp\Desktop\nyc-data\nyc-data-y')
+
+
+""" 
+    yellow files from 2016-01 to 2016-06 are problematic: the header does not work properly (VendorID ends up being a date!!!)
+    To fix them we tried to use this function but ended up in fixing just one at a time
+    overwriting the original csv as output
+"""
+to_be_fixed = ["yellow_tripdata_2016-07.csv", "yellow_tripdata_2016-08.csv", "yellow_tripdata_2016-09.csv", 
+"yellow_tripdata_2016-10.csv", "yellow_tripdata_2016-11.csv", "yellow_tripdata_2016-12.csv"]
+
+for name_df in to_be_fixed:
+    df = pd.read_csv(name_df)
+    n = ['VendorID', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'RatecodeID', 'PULocationID', 'DOLocationID', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'ehail_fee', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type']
+    df = pd.read_csv(name_df, delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
+    df.drop(df.index[0])
+    df.to_csv('%s' %name_df, index=False)
+    print('completed')
+
+n = ['VendorID', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'RatecodeID', 'PULocationID', 'DOLocationID', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 'tolls_amount', 'ehail_fee', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type']
+
+df = pd.read_csv("yellow_tripdata_2016-07.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
+df = df.drop(df.index[0])
+df.to_csv("yellow_tripdata_2016-07.csv", index=False)
+print('completed')
+
+df = pd.read_csv("yellow_tripdata_2016-08.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
+df.drop(df.index[0])
+df.to_csv("f_yellow_tripdata_2016-08.csv", index=False)
+print('completed')
+
+df = pd.read_csv("yellow_tripdata_2016-09.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
+df.drop(df.index[0])
+df.to_csv("f_yellow_tripdata_2016-09.csv", index=False)
+print('completed')
+
+df = pd.read_csv("yellow_tripdata_2016-10.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
+df.drop(df.index[0])
+df.to_csv("f_yellow_tripdata_2016-10.csv", index=False)
+print('completed')
+
+df = pd.read_csv("yellow_tripdata_2016-11.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
+df.drop(df.index[0])
+df.to_csv("f_yellow_tripdata_2016-11.csv", index=False)
+print('completed')
+
+df = pd.read_csv("yellow_tripdata_2016-12.csv", delimiter=",", quoting = csv.QUOTE_NONE, header=None, names = n)
+df.drop(df.index[0])
+df.to_csv("f_yellow_tripdata_2016-12.csv", index=False)
+print('completed')
+
+""" 
+    Sample. We sample and merge 6/12 df at a time 
+"""
+# quelli con la lat e long da sistemare
+# ylist2016a = ['yellow_tripdata_2016-01.csv', 'yellow_tripdata_2016-02.csv', 'yellow_tripdata_2016-03.csv', 'yellow_tripdata_2016-04.csv', 'yellow_tripdata_2016-05.csv', 'yellow_tripdata_2016-06.csv']
+
+ylist2016b = ['yellow_tripdata_2016-07.csv', 'yellow_tripdata_2016-08.csv', 'yellow_tripdata_2016-09.csv', 'yellow_tripdata_2016-10.csv', 'yellow_tripdata_2016-11.csv', 'yellow_tripdata_2016-12.csv']
+
+ylist2017= ['yellow_tripdata_2017-01.csv', 'yellow_tripdata_2017-02.csv', 'yellow_tripdata_2017-03.csv', 'yellow_tripdata_2017-04.csv', 'yellow_tripdata_2017-05.csv', 'yellow_tripdata_2017-06.csv', 'yellow_tripdata_2017-07.csv', 'yellow_tripdata_2017-08.csv', 'yellow_tripdata_2017-09.csv', 'yellow_tripdata_2017-10.csv', 'yellow_tripdata_2017-11.csv', 'yellow_tripdata_2017-12.csv']
+
+ylist2018 = ['yellow_tripdata_2018-01.csv', 'yellow_tripdata_2018-02.csv', 'yellow_tripdata_2018-03.csv', 'yellow_tripdata_2018-04.csv', 'yellow_tripdata_2018-05.csv', 'yellow_tripdata_2018-06.csv']
+
+def sample_and_merge(l, out_name): #l needs to be a list of 6/12 dfs
+    sample_collection = list()
+    for name in l:
+        df = pd.read_csv(name)
+        df_sampled = df.sample(frac = .01, random_state = 1)
+        sample_collection.append(df_sampled)
+        print('one done')
+    #Concatenate and create new csv file
+    frame = pd.concat(sample_collection, axis=0, ignore_index=True) #concatenate all the df in the list
+    frame.to_csv(out_name, index=False)
+    #frame 
+
+## first 6 months of 2016 not included yet (geopy)
+#sample_and_merge(ylist2016a, 'sampled_ylist2016a.csv')
+#sampled_ylist2016a = pd.read_csv('sampled_ylist2016a.csv')
+
+sample_and_merge(ylist2016b, 'sampled_ylist2016b.csv')
+sample_and_merge(ylist2017, 'sampled_ylist2017.csv')
+sample_and_merge(ylist2018, 'sampled_ylist2018.csv')
+
+sampled_ylist2016b = pd.read_csv('sampled_ylist2016b.csv')
+sampled_ylist2017 = pd.read_csv('sampled_ylist2017.csv')
+sampled_ylist2018 = pd.read_csv('sampled_ylist2018.csv')
+
+cols_ylist2016b = list(sampled_ylist2016b.columns)
+cols_ylist2017 = list(sampled_ylist2017.columns)
+cols_ylist2018 = list(sampled_ylist2018.columns)
+
+cols_ylist2018 == cols_ylist2017
+cols_ylist2018 == cols_ylist2016b
+
+# since the fixing of yellow2016b has been done with respect to greens columns
+# we ended up with 2 extra columns: 'ehail_fee', 'trip_type'
+# -> dropping 'ehail_fee' from 2016b's dataframe
+# -> adding 'trip_type' to 2017's and 2018's dataframe
+sampled_ylist2016b = sampled_ylist2016b.drop(columns=['ehail_fee'])
+sampled_ylist2017['trip_type'] = 'NaN'
+sampled_ylist2018['trip_type'] = 'NaN'
+
+# changing 'tpep_pickup_datetime', 'tpep_dropoff_datetime'
+# to 'lpep_pickup_datetime', 'lpep_dropoff_datetime'
+# because greens' have these names
+sampled_ylist2017 = sampled_ylist2017.rename(columns = {'tpep_pickup_datetime' : 'lpep_pickup_datetime'})
+sampled_ylist2017 = sampled_ylist2017.rename(columns = {'tpep_dropoff_datetime' : 'lpep_dropoff_datetime'})
+sampled_ylist2018 = sampled_ylist2018.rename(columns = {'tpep_pickup_datetime' : 'lpep_pickup_datetime'})
+sampled_ylist2018 = sampled_ylist2018.rename(columns = {'tpep_dropoff_datetime' : 'lpep_dropoff_datetime'})
+
+# reordering all dataframes columns in order to have them in the same order of green's
+
+order = ['VendorID', 'lpep_pickup_datetime', 'lpep_dropoff_datetime', 'store_and_fwd_flag', 'RatecodeID', 
+        'PULocationID', 'DOLocationID', 'passenger_count', 'trip_distance', 'fare_amount', 'extra', 'mta_tax', 'tip_amount', 
+        'tolls_amount', 'improvement_surcharge', 'total_amount', 'payment_type', 'trip_type']           
+
+sampled_ylist2016b = sampled_ylist2016b[order]
+sampled_ylist2017 = sampled_ylist2017[order]
+sampled_ylist2018 = sampled_ylist2018[order]
+
+# updating colnames lists
+cols_ylist2016b = list(sampled_ylist2016b.columns)
+cols_ylist2017 = list(sampled_ylist2017.columns)
+cols_ylist2018 = list(sampled_ylist2018.columns)
+
+# cheking again
+cols_ylist2018 == cols_ylist2017
+cols_ylist2018 == cols_ylist2016b
+
+# deleting stuff
+del(order, cols_ylist2016b, cols_ylist2017, cols_ylist2018)
+
+yellow_merged = pd.concat([sampled_ylist2016b, sampled_ylist2017, sampled_ylist2018])
+yellow_merged.to_csv("yellow_merged.csv", index=False)
