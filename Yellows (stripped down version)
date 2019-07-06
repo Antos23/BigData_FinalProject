@@ -67,22 +67,16 @@ def sample_and_merge(l, out_name): #l needs to be a list of 6/12 dfs
     frame = pd.concat(sample_collection, axis=0, ignore_index=True) #concatenate all the df in the list
     frame.to_csv(out_name, index=False) 
 
-## Note: the first 6 months of 2016 are yet to do 
 
-# ylist2016a = ['yellow_tripdata_2016-01.csv', 'yellow_tripdata_2016-02.csv', 'yellow_tripdata_2016-03.csv', 'yellow_tripdata_2016-04.csv', 'yellow_tripdata_2016-05.csv', 'yellow_tripdata_2016-06.csv']
-ylist2016b = ['yellow_tripdata_2016-07.csv', 'yellow_tripdata_2016-08.csv', 'yellow_tripdata_2016-09.csv', 'yellow_tripdata_2016-10.csv', 'yellow_tripdata_2016-11.csv', 'yellow_tripdata_2016-12.csv']
+ylist2016a = ['yellow_tripdata_2016-01.csv', 'yellow_tripdata_2016-02.csv', 'yellow_tripdata_2016-03.csv', 'yellow_tripdata_2016-04.csv', 'yellow_tripdata_2016-05.csv', 'yellow_tripdata_2016-06.csv']
+ylist2016b = ['yellow_tripdata_2016-01.csv', 'yellow_tripdata_2016-02.csv', 'yellow_tripdata_2016-03.csv', 'yellow_tripdata_2016-04.csv', 'yellow_tripdata_2016-05.csv', 'yellow_tripdata_2016-06.csv']
 ylist2017= ['yellow_tripdata_2017-01.csv', 'yellow_tripdata_2017-02.csv', 'yellow_tripdata_2017-03.csv', 'yellow_tripdata_2017-04.csv', 'yellow_tripdata_2017-05.csv', 'yellow_tripdata_2017-06.csv', 'yellow_tripdata_2017-07.csv', 'yellow_tripdata_2017-08.csv', 'yellow_tripdata_2017-09.csv', 'yellow_tripdata_2017-10.csv', 'yellow_tripdata_2017-11.csv', 'yellow_tripdata_2017-12.csv']
 ylist2018 = ['yellow_tripdata_2018-01.csv', 'yellow_tripdata_2018-02.csv', 'yellow_tripdata_2018-03.csv', 'yellow_tripdata_2018-04.csv', 'yellow_tripdata_2018-05.csv', 'yellow_tripdata_2018-06.csv']
 
-# sample_and_merge(ylist2016a, 'sampled_ylist2016a.csv')
+sample_and_merge(ylist2016a, 'sampled_ylist2016a.csv')
 sample_and_merge(ylist2016b, 'sampled_ylist2016b.csv')
 sample_and_merge(ylist2017, 'sampled_ylist2017.csv')
-sample_and_merge(ylist2018, 'sampled_ylist2018.csv')
-
-#sampled_ylist2016a = pd.read_csv('sampled_ylist2016a.csv')
-sampled_ylist2016b = pd.read_csv('sampled_ylist2016b.csv')
-sampled_ylist2017 = pd.read_csv('sampled_ylist2017.csv')
-sampled_ylist2018 = pd.read_csv('sampled_ylist2018.csv')
+sample_and_merge(ylist2017, 'sampled_ylist2018.csv')
 
 """ 
     Final merge for yellows, after some operations to make a nice union with the greens later.
