@@ -1,0 +1,36 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import networkx as nx
+
+connections_renamed = pd.read_csv("connections_b_renamed.csv")
+nodenames = ['Bronx', 'Brooklyn', 'EWR', 'Manhattan', 'Queens', 'Staten Island', 'Unknown']
+labs = {i:nodename for i, nodename in enumerate(nodenames)}
+connections_renamed = connections_renamed.rename(index = labs)
+connections_renamed = connections_renamed.drop('Unknown')
+del connections_renamed['Unknown']
+
+# set sizes for nodes
+do = dict(connections_renamed.sum(axis = 1, skipna = True)) 
+do = [el*0.01 for el in list(do.values())]
+pu = dict(connections_renamed.sum(axis = 0, skipna = True)) 
+pu = [el*0.01 for el in list(pu.values())]
+
+# add custom positions for nodes
+custom = {'Bronx' : (708, 756),
+          'Brooklyn' : (572, 308),
+          'EWR' : (300, 450),
+          'Manhattan' : (512, 636),
+          'Queens' : (772, 464),
+          'Staten Island' : (320, 250)}
+
+H = nx.Graph(connections_renamed)
+G = nx.Graph()
+G.add_nodes_from(connections_renamed)
+G.add_edges_from(H.edges)
+
+fig = plt.figure(figsize=(15,15))
+fig.suptitle('Drop-off graph', fontsize=50)
+
+nx.draw(G, custom, with_labels=True, font_weight='bold', font_size=15, font_name = 'Sawasdee', font_color = "#0d353f",
+        node_size=do, node_color="#efb53f")
